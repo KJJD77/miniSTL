@@ -90,14 +90,10 @@ public:
 
     ~myWeakPtr()
     {
-        if (cb_)
+        if (cb_ && --cb_->weak_count_ == 0 && cb_->strong_count_ == 0)
         {
-            cb_->weak_count_--;
-            if (!cb_->weak_count_)
-            {
                 delete cb_;
                 cb_ = nullptr;
-            }
         }
     }
 
